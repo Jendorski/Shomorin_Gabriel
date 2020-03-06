@@ -1,6 +1,5 @@
 package com.shomoringabriel.models.filterModel.countryModel;
 
-import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
@@ -20,7 +19,7 @@ public class FilterCountryModel extends BaseModel {
     @PrimaryKey
     private String userId;
 
-    @Column
+    @PrimaryKey
     private String countryName;
 
     public String getUserId() {

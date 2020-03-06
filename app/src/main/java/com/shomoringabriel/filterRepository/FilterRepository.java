@@ -29,6 +29,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
@@ -121,7 +122,7 @@ public class FilterRepository {
         RXSQLite.rx(SQLite.select().from(FilterUserModel.class))
                 .queryList()
                 .subscribeOn(Schedulers.single())
-                .observeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<List<FilterUserModel>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -131,6 +132,7 @@ public class FilterRepository {
                     @Override
                     public void onSuccess(List<FilterUserModel> filterUserModels) {
                         Log.e(TAG, " List<FilterUserModel>: " + filterUserModels.size());
+
                         if(recyclerView != null
                         && avLoadingIndicatorView != null){
 
@@ -166,7 +168,7 @@ public class FilterRepository {
             public void onResponse(Call<List<FilterUserModel>> call, Response<List<FilterUserModel>> response) {
                 Observable.just(Objects.requireNonNull(response.body()))
                         .subscribeOn(Schedulers.io())
-                        .flatMapIterable((Function<List<FilterUserModel>, Iterable<FilterUserModel>>) filterUserModels -> {
+                        .concatMapIterable((Function<List<FilterUserModel>, Iterable<FilterUserModel>>) filterUserModels -> {
                             /**Save to DB*/
                             database = FlowManager.getDatabase(DecagonDatabase.class);
 
@@ -180,7 +182,7 @@ public class FilterRepository {
                             return filterUserModels;
                         }).subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.newThread())
-                        .flatMap((Function<FilterUserModel, ObservableSource<List<FilterCountryModel>>>) filterUserModel -> {
+                        .concatMap((Function<FilterUserModel, ObservableSource<List<FilterCountryModel>>>) filterUserModel -> {
 
                             Log.e(TAG," LIST<COLORS> : " + filterUserModel.getColors().size() + " LIST<COUNTRIES>: " + filterUserModel.getCountries().size());
 
@@ -234,9 +236,9 @@ public class FilterRepository {
     private void resolveColor(List<String> colors, String id){
         Observable.just(colors)
                 .subscribeOn(Schedulers.single())
-                .flatMapIterable((Function<List<String>, Iterable<String>>) strings -> strings)
+                .concatMapIterable((Function<List<String>, Iterable<String>>) strings -> strings)
                 .observeOn(Schedulers.single())
-                .flatMap((Function<String, ObservableSource<FilterColorModel>>) s -> {
+                .concatMap((Function<String, ObservableSource<FilterColorModel>>) s -> {
                     FilterColorModel colorModel = new FilterColorModel();
                     colorModel.setColorName(s);
                     colorModel.setUserId(id);
@@ -273,12 +275,12 @@ public class FilterRepository {
     public Observable<List<FilterCountryModel>> resolveCountries(List<String> countries, String id){
         return Observable.just(countries)
                 .subscribeOn(Schedulers.newThread())
-                .flatMapIterable(new Function<List<String>, Iterable<String>>() {
+                .concatMapIterable(new Function<List<String>, Iterable<String>>() {
                     @Override
                     public Iterable<String> apply(List<String> strings) throws Exception {
                         return strings;
                     }
-                }).flatMap(new Function<String, ObservableSource<FilterCountryModel>>() {
+                }).concatMap(new Function<String, ObservableSource<FilterCountryModel>>() {
             @Override
             public ObservableSource<FilterCountryModel> apply(String s) throws Exception {
                 FilterCountryModel countryModel = new FilterCountryModel();

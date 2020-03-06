@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.shomoringabriel.R;
+import com.shomoringabriel.models.filterModel.colorModel.FilterColorModel;
+import com.shomoringabriel.models.filterModel.countryModel.FilterCountryModel;
 import com.shomoringabriel.models.filterModel.userModel.FilterUserModel;
 
 import java.util.List;
@@ -35,9 +37,7 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerVH
 
         View v = inflater.inflate(R.layout.filter_list_item, parent, false);
 
-        FilterRecyclerVH viewHolder = new FilterRecyclerVH(v);
-
-        return viewHolder;
+        return new FilterRecyclerVH(v);
     }
 
     @Override
@@ -49,6 +49,17 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerVH
         holder.gender.setText(filterUserModel.getGender());
 
         itemGlider(holder.circleImageView, filterUserModel.getAvatar());
+
+        stringColorBuilder(holder, filterUserModel);
+
+        stringCountryBuilder(holder, filterUserModel);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //To properties Fragment
+            }
+        });
 
     }
 
@@ -66,8 +77,34 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerVH
                 .subscribe();
     }
 
-    private void stringColorBuilder(){
-        
+    private void stringCountryBuilder(FilterRecyclerVH holder, FilterUserModel f){
+
+        List<FilterCountryModel> list = f.getCountriesList(f.getId()).blockingGet();
+
+        StringBuilder builder = new StringBuilder();
+        for (FilterCountryModel fcM: list) {
+            builder.append(fcM.getCountryName()).append(", ");
+        }
+        holder.country.setText(builder.toString());
+        holder.country.setMarqueeRepeatLimit(-1);
+        holder.country.setSelected(true);
+        holder.country.setFocusableInTouchMode(true);
+
+    }
+
+    private void stringColorBuilder(FilterRecyclerVH holder, FilterUserModel f){
+
+        List<FilterColorModel> list = f.getColorsList(f.getId()).blockingGet();
+
+        StringBuilder builder = new StringBuilder();
+        for (FilterColorModel fcM: list) {
+            builder.append(fcM.getColorName()).append(", ");
+        }
+        holder.color.setText(builder.toString());
+        holder.color.setMarqueeRepeatLimit(-1);
+        holder.color.setSelected(true);
+        holder.color.setFocusableInTouchMode(true);
+
     }
 
     @Override

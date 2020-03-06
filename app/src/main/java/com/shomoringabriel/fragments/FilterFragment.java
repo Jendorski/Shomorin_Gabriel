@@ -61,6 +61,7 @@ public class FilterFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private void a(){
         new FilterRepository()
                 .getRecyclerView(binding.propertiesFilterRecyclerView)
+                .getAVL(binding.propertiesFilterAVLoadingIndicatorView)
                 .g();
     }
 

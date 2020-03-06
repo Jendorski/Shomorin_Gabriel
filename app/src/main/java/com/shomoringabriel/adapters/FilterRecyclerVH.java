@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shomoringabriel.R;
@@ -15,6 +16,8 @@ public class FilterRecyclerVH extends RecyclerView.ViewHolder {
     public CircleImageView circleImageView;
 
     public TextView name, gender, country, date, color;
+
+    public CardView cardView;
 
     public FilterRecyclerVH(@NonNull View itemView) {
         super(itemView);
@@ -28,6 +31,9 @@ public class FilterRecyclerVH extends RecyclerView.ViewHolder {
         color = itemView.findViewById(R.id.filter_color);
 
         country = itemView.findViewById(R.id.filter_country);
+
+        cardView = itemView.findViewById(R.id.filter_card_view);
+
     }
 
 }

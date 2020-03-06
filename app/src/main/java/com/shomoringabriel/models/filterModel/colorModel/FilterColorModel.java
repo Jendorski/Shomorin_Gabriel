@@ -1,6 +1,5 @@
 package com.shomoringabriel.models.filterModel.colorModel;
 
-import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
@@ -12,7 +11,7 @@ public class FilterColorModel extends BaseModel {
     @PrimaryKey
     private String userId;
 
-    @Column
+    @PrimaryKey
     private String colorName;
 
     public String getUserId() {
