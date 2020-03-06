@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp">
 
@@ -12,32 +12,74 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/filter_circle_image"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    app:civ_border_width="2dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    app:civ_border_color="@color/colorAccent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Name"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#000"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"/>
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toEndOf="@id/filter_circle_image">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nigeria, China"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#000"
-                    android:layout_marginTop="4dp"/>
+                    <TextView
+                        android:id="@+id/filter_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#000"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"/>
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/filter_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nigeria, China"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#000"
+                        android:layout_marginTop="4dp"/>
+
+                    <TextView
+                        android:id="@+id/filter_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Green"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#000"
+                        android:layout_marginTop="4dp"/>
+
+                    <TextView
+                        android:id="@+id/filter_gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Male"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#000"
+                        android:layout_marginTop="4dp"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 

@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.rx2.language.RXSQLite;
@@ -22,7 +23,7 @@ import java.util.List;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
-@Table(database = DecagonDatabase.class, name = "UserModel")
+@Table(database = DecagonDatabase.class, name = "FilterUserModel")
 public class FilterUserModel extends BaseModel implements Serializable, Parcelable {
 
     @SerializedName("id")
@@ -32,18 +33,22 @@ public class FilterUserModel extends BaseModel implements Serializable, Parcelab
 
     @SerializedName("avatar")
     @Expose
+    @Column
     private String avatar;
 
     @SerializedName("fullName")
     @Expose
+    @Column
     private String fullName;
 
     @SerializedName("createdAt")
     @Expose
+    @Column
     private String createdAt;
 
     @SerializedName("gender")
     @Expose
+    @Column
     private String gender;
 
     @SerializedName("colors")

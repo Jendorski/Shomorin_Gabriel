@@ -11,6 +11,8 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 import com.shomoringabriel.database.DecagonDatabase;
 import com.shomoringabriel.filterRepository.FilterRepository;
 
+import static com.shomoringabriel.filterRepository.FilterRepository.countUserFilters;
+
 public class Utils extends MultiDexApplication {
 
     private static Utils singletonInstance;
@@ -29,9 +31,12 @@ public class Utils extends MultiDexApplication {
 
         FlowLog.setMinimumLoggingLevel(FlowLog.Level.V); // set to verbose logging
 
-        new FilterRepository()//.getRecyclerView(binding.propertiesFilterRecyclerView)
-                //.getAVL(binding.propertiesFilterAVLoadingIndicatorView)
-                .getNetworkFilterParameters();
+        long l = countUserFilters();
+
+        if( l <= 0){
+            new FilterRepository()
+                    .getNetworkFilterParameters();
+        }
 
     }
 

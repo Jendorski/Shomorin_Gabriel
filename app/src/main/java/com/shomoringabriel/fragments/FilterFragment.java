@@ -39,6 +39,7 @@ public class FilterFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onResume() {
         super.onResume();
+        a();
     }
 
     @Override
@@ -53,12 +54,14 @@ public class FilterFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onRefresh() {
+        a();
         binding.propertiesFilterSwipeRefreshLayout.setRefreshing(false);
     }
 
     private void a(){
         new FilterRepository()
-                .getDBFilterParameters();
+                .getRecyclerView(binding.propertiesFilterRecyclerView)
+                .g();
     }
 
 }

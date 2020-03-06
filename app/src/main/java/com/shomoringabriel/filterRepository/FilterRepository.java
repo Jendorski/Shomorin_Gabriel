@@ -1,8 +1,10 @@
 package com.shomoringabriel.filterRepository;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
@@ -36,6 +38,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+
+import static com.shomoringabriel.utils.Utils.getAppContext;
 
 public class FilterRepository {
 
@@ -74,7 +78,7 @@ public class FilterRepository {
         return this;
     }
 
-    private void g(){
+    public void g(){
         long u = countUserFilters();
         long col = countColorFilter();
         long cou = countCountryFilter();
@@ -108,6 +112,12 @@ public class FilterRepository {
     }
 
     public void getDBFilterParameters(){
+
+        if(avLoadingIndicatorView != null){
+            avLoadingIndicatorView.setVisibility(View.VISIBLE);
+            avLoadingIndicatorView.show();
+        }
+
         RXSQLite.rx(SQLite.select().from(FilterUserModel.class))
                 .queryList()
                 .subscribeOn(Schedulers.single())
@@ -121,6 +131,20 @@ public class FilterRepository {
                     @Override
                     public void onSuccess(List<FilterUserModel> filterUserModels) {
                         Log.e(TAG, " List<FilterUserModel>: " + filterUserModels.size());
+                        if(recyclerView != null
+                        && avLoadingIndicatorView != null){
+
+                            FilterRecyclerAdapter adapter = new FilterRecyclerAdapter(filterUserModels);
+                            adapter.notifyDataSetChanged();
+
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setHasFixedSize(true);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getAppContext()));
+
+                            avLoadingIndicatorView.setVisibility(View.INVISIBLE);
+                            avLoadingIndicatorView.hide();
+                        }
+
                     }
 
                     @Override
@@ -152,10 +176,6 @@ public class FilterRepository {
                                     .build();
 
                             database.executeTransaction(transaction);
-
-                            if(recyclerView != null){
-                                recyclerView.setAdapter(new FilterRecyclerAdapter(filterUserModels));
-                            }
 
                             return filterUserModels;
                         }).subscribeOn(Schedulers.io())
@@ -290,7 +310,7 @@ public class FilterRepository {
                 .blockingGet();
     }
 
-    private long countUserFilters(){
+    public static long countUserFilters(){
         return RXSQLite.rx(SQLite.select()
                 .from(FilterUserModel.class))
                 .count()
